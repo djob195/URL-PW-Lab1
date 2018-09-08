@@ -140,3 +140,5 @@ app.delete('/receta/:id', (req, res) => {
         });
     });
 });
+
+module.exports = app;
