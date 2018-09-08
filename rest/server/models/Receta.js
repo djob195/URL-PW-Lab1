@@ -15,6 +15,9 @@ let recetaSchema = new Schema({
     fechaIngreso: {
         type: Date
     },
+    fechaActualizacion: {
+        type: Date
+    },
     estado: {
         type: Boolean,
         default: true

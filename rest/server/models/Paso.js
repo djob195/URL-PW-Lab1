@@ -19,6 +19,9 @@ let pasoSchema = new Schema({
         type: Boolean,
         default: true
     },
+    fechaActualizacion: {
+        type: Date
+    },
 
     Receta: {
         type: Schema.Types.ObjectId,

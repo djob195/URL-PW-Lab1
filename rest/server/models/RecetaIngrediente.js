@@ -8,6 +8,12 @@ let recetaIngredienteSchema = new Schema({
         type: Number,
         required: [true, 'La cantidad del ingrediente para la receta es obligatorio']
     },
+    fechaIngreso: {
+        type: Date
+    },
+    fechaActualizacion: {
+        type: Date
+    },
 
     Receta: {
         type: Schema.Types.ObjectId,

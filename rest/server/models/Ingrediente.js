@@ -14,6 +14,9 @@ let ingredienteSchema = new Schema({
     fechaIngreso: {
         type: Date
     },
+    fechaActualizacion: {
+        type: Date
+    },
     estado: {
         type: Boolean,
         default: true
