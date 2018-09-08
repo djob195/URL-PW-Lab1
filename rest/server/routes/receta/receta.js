@@ -82,10 +82,10 @@ app.get('/receta', (req, res) => {
         res.json({
             ok: true,
             dataTable: {
-                draw = req.query.draw,
-                recordsTotal = values[2],
-                recordsFiltered = values[1],
-                data = values[0]
+                draw : req.query.draw,
+                recordsTotal : values[2],
+                recordsFiltered : values[1],
+                data : values[0]
              }
         });
     }).catch(err =>{
