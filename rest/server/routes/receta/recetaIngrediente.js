@@ -1,24 +1,24 @@
 const express =   require('express');
 let app = express();
-let Receta = require('../../models/receta');
+let RecetaIngrediente = require('../../models/recetaIngrediente');
 
 
 // ============================
-// Crear una nueva receta
+// Crear una nueva recetaIngrediente
 // ============================
-app.post('/receta', (req, res) => {
+app.post('/recetaIngrediente', (req, res) => {
     let body = req.body;
 
-    let receta = new Receta({
-        nombre: body.nombre,
-        descripcion: body.descripcion,
-        fechaIngreso: Date.now()
+    let recetaIngrediente = new RecetaIngrediente({
+        cantidad: body.cantidad,
+        receta: body.recetaID,
+        ingrediente: body.ingredienteID
     });
-    receta.save()
-    .then(recetaDB =>{
+    recetaIngrediente.save()
+    .then(recetaIngredienteDB =>{
         res.json({
             ok: true,
-            receta: recetaDB
+            recetaIngrediente: recetaIngredienteDB
         });
     })
     .catch(err => {
@@ -30,19 +30,19 @@ app.post('/receta', (req, res) => {
 });
 
 // ===================================
-// actualizar una receta
+// actualizar una recetaIngrediente
 // ===================================
-app.put('/receta/:id', (req, res) => {
+app.put('/recetaIngrediente/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
 
     body.fechaActualizacion = Date.now();
 
-    Receta.findByIdAndUpdate(id, body,{new: true, runValidators: true})
-    .then(recetaDB => {
+    RecetaIngrediente.findByIdAndUpdate(id, body,{new: true, runValidators: true})
+    .then(recetaIngredienteDB => {
         res.json({
             ok: true,
-            receta: recetaDB
+            recetaIngrediente: recetaIngredienteDB
         });
     })
     .catch(err =>{
@@ -55,27 +55,27 @@ app.put('/receta/:id', (req, res) => {
 
 
 // ============================
-// Mostrar todas las recetas
+// Mostrar todas las recetaIngredientes por receta
 // ============================
-app.get('/receta', (req, res) => {
+app.get('/recetaIngrediente', (req, res) => {
     let desde = req.query.start || process.env.DESDE ;
     desde = Number(desde);
 
     let  limite = req.query.length  || process.env.LIMITE;
     limite = Number(limite);
 
-    let regex = new RegExp(req.query.search.value, 'i');
-    let condicion = {estado:true, nombre:regex};
+    let condicion = {estado:true, receta:req.query.receta};
 
-    let p1 = Receta.find(condicion, 'nombre descripcion')
-    .sort('nombre')
+    let p1 = RecetaIngrediente.find(condicion, 'cantidad')
+    .populate('ingrediente')
+    .sort('fechaIngreso')
     .limit(limite)
     .skip(desde)
     .exec();
 
-    let p2 = Receta.count(condicion);
+    let p2 = RecetaIngrediente.count(condicion);
 
-    let p3 = Receta.count({estado:true});
+    let p3 = RecetaIngrediente.count({estado:true});
     
     Promise.all([p1,p2,p3])
     .then(values =>{
@@ -97,15 +97,15 @@ app.get('/receta', (req, res) => {
 });
 
 // ============================
-// Mostrar una receta por ID
+// Mostrar una recetaIngrediente por ID
 // ============================
-app.get('/receta/:id',(req, res) => {
+app.get('/recetaIngrediente/:id',(req, res) => {
     let id = req.params.id;
-    Receta.findById(id)
-    .then(recetaDB =>{
+    RecetaIngrediente.findById(id)
+    .then(recetaIngredienteDB =>{
         res.json({
             ok: true,
-            receta: recetaDB
+            recetaIngrediente: recetaIngredienteDB
         });
     }).catch(err =>{
         return res.status(400).json({
@@ -116,22 +116,22 @@ app.get('/receta/:id',(req, res) => {
 });
 
 // ============================
-// Eliminar una receta
+// Eliminar una recetaIngrediente
 // ============================
-app.delete('/receta/:id', (req, res) => {
+app.delete('/recetaIngrediente/:id', (req, res) => {
     let id =  req.params.id;
     let body = {estado:false};
-    Receta.findByIdAndUpdate(id, body,{new: true})
-    .then(recetaBorrado => {
-        if (recetaBorrado === null){
+    RecetaIngrediente.findByIdAndUpdate(id, body,{new: true})
+    .then(recetaIngredienteBorrado => {
+        if (recetaIngredienteBorrado === null){
             return res.status(404).json({
                 ok: false,
-                err:  {message:"receta no encontrado"}
+                err:  {message:"recetaIngrediente no encontrado"}
             });
         }
         res.json({
             ok: true,
-            receta: recetaBorrado
+            recetaIngrediente: recetaIngredienteBorrado
         });
     }).catch(err => {
         return res.status(400).json({

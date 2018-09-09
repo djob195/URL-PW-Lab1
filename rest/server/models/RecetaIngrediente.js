@@ -15,12 +15,12 @@ let recetaIngredienteSchema = new Schema({
         type: Date
     },
 
-    Receta: {
+    receta: {
         type: Schema.Types.ObjectId,
         ref: 'Receta',
         required: [true, 'Debe estar asociado el ingrediente a una receta']
     },
-    Ingrediente: {
+    ingrediente: {
         type: Schema.Types.ObjectId,
         ref: 'Ingrediente',
         required: [true, 'Debe estar asociado el ingrediente a una receta']

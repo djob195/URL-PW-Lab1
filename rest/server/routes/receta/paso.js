@@ -1,24 +1,26 @@
 const express =   require('express');
 let app = express();
-let Receta = require('../../models/receta');
+let Paso = require('../../models/paso');
 
 
 // ============================
-// Crear una nueva receta
+// Crear una nueva paso
 // ============================
-app.post('/receta', (req, res) => {
+app.post('/paso', (req, res) => {
     let body = req.body;
 
-    let receta = new Receta({
-        nombre: body.nombre,
+    let paso = new Paso({
         descripcion: body.descripcion,
-        fechaIngreso: Date.now()
+        orden: body.orden,
+        fechaIngreso: Date.now(),
+
+        receta: body.recetaID
     });
-    receta.save()
-    .then(recetaDB =>{
+    paso.save()
+    .then(pasoDB =>{
         res.json({
             ok: true,
-            receta: recetaDB
+            categoria: pasoDB
         });
     })
     .catch(err => {
@@ -30,19 +32,19 @@ app.post('/receta', (req, res) => {
 });
 
 // ===================================
-// actualizar una receta
+// actualizar una paso
 // ===================================
-app.put('/receta/:id', (req, res) => {
+app.put('/paso/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
 
     body.fechaActualizacion = Date.now();
 
-    Receta.findByIdAndUpdate(id, body,{new: true, runValidators: true})
-    .then(recetaDB => {
+    Paso.findByIdAndUpdate(id, body,{new: true, runValidators: true})
+    .then(pasoDB => {
         res.json({
             ok: true,
-            receta: recetaDB
+            paso: pasoDB
         });
     })
     .catch(err =>{
@@ -55,27 +57,26 @@ app.put('/receta/:id', (req, res) => {
 
 
 // ============================
-// Mostrar todas las recetas
+// Mostrar todas las pasos por receta
 // ============================
-app.get('/receta', (req, res) => {
+app.get('/paso', (req, res) => {
     let desde = req.query.start || process.env.DESDE ;
     desde = Number(desde);
 
     let  limite = req.query.length  || process.env.LIMITE;
     limite = Number(limite);
 
-    let regex = new RegExp(req.query.search.value, 'i');
-    let condicion = {estado:true, nombre:regex};
+    let condicion = {estado:true, receta:req.query.receta};
 
-    let p1 = Receta.find(condicion, 'nombre descripcion')
-    .sort('nombre')
+    let p1 = Paso.find(condicion, 'orden descripcion')
+    .sort('orden')
     .limit(limite)
     .skip(desde)
     .exec();
 
-    let p2 = Receta.count(condicion);
+    let p2 = paso.count(condicion);
 
-    let p3 = Receta.count({estado:true});
+    let p3 = paso.count({estado:true});
     
     Promise.all([p1,p2,p3])
     .then(values =>{
@@ -97,15 +98,15 @@ app.get('/receta', (req, res) => {
 });
 
 // ============================
-// Mostrar una receta por ID
+// Mostrar una paso por ID
 // ============================
-app.get('/receta/:id',(req, res) => {
+app.get('/paso/:id',(req, res) => {
     let id = req.params.id;
-    Receta.findById(id)
-    .then(recetaDB =>{
+    Paso.findById(id)
+    .then(pasoDB =>{
         res.json({
             ok: true,
-            receta: recetaDB
+            paso: pasoDB
         });
     }).catch(err =>{
         return res.status(400).json({
@@ -116,22 +117,22 @@ app.get('/receta/:id',(req, res) => {
 });
 
 // ============================
-// Eliminar una receta
+// Eliminar una paso
 // ============================
-app.delete('/receta/:id', (req, res) => {
+app.delete('/paso/:id', (req, res) => {
     let id =  req.params.id;
     let body = {estado:false};
-    Receta.findByIdAndUpdate(id, body,{new: true})
-    .then(recetaBorrado => {
-        if (recetaBorrado === null){
+    Paso.findByIdAndUpdate(id, body,{new: true})
+    .then(pasoBorrado => {
+        if (pasoBorrado === null){
             return res.status(404).json({
                 ok: false,
-                err:  {message:"receta no encontrado"}
+                err:  {message:"paso no encontrado"}
             });
         }
         res.json({
             ok: true,
-            receta: recetaBorrado
+            paso: pasoBorrado
         });
     }).catch(err => {
         return res.status(400).json({

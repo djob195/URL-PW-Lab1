@@ -23,7 +23,7 @@ let pasoSchema = new Schema({
         type: Date
     },
 
-    Receta: {
+    receta: {
         type: Schema.Types.ObjectId,
         ref: 'Receta',
         required: [true, 'Debe estar asociado el paso a una receta']

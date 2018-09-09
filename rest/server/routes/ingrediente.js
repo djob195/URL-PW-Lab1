@@ -1,6 +1,6 @@
 const express =   require('express');
 let app = express();
-let Ingrediente = require('../../models/ingrediente');
+let Ingrediente = require('../models/ingrediente');
 
 
 // ============================
@@ -18,7 +18,7 @@ app.post('/ingrediente', (req, res) => {
     .then(ingredienteDB =>{
         res.json({
             ok: true,
-            categoria: ingredienteDB
+            ingrediente: ingredienteDB
         });
     })
     .catch(err => {
