@@ -1,0 +1,11 @@
+header_menu {
+	width: 100%;
+}
+ 
+header_menu nav {
+	background:#023859;
+	z-index:1000;
+	max-width: 1000px;
+	width:95%;
+	margin:20px auto;
+}
