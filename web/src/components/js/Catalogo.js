@@ -9,7 +9,7 @@ const Catalogo = () =>{
             <Row>
                     <Col sm={{ size: 6, order: 2, offset: 1 } }>
                         <Card body inverse color="info">
-                            <NavLink to='/alimento' className="cardCatalogo" >Alimentos</NavLink>
+                            <NavLink to='/alimento/index' className="cardCatalogo" >Alimentos</NavLink>
                         </Card>
                     </Col>
             </Row>

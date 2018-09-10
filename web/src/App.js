@@ -6,7 +6,10 @@ import Error from './components/js/Error';
 import Header from './components/js/Header';
 import Receta from './components/js/Receta';
 import Catalogo from './components/js/Catalogo';
-import Alimento from './components/js/Alimento';
+
+// Alimento
+import AlimentoIndex from './components/js/Alimento/Index.js';
+import AlimentoCreate from './components/js/Alimento/Create.js';
 
 
 class App extends Component {
@@ -19,7 +22,8 @@ class App extends Component {
             <Route path="/" component={Home} exact />
             <Route path="/receta" component={Receta}  />
             <Route path="/catalogo" component={Catalogo}  />
-            <Route path="/alimento" component={Alimento}  />
+            <Route path="/alimento/index" component={AlimentoIndex}  />
+            <Route path="/alimento/create" component={AlimentoCreate}  />
             <Route  component={Error} />
           </Switch>
         </div>

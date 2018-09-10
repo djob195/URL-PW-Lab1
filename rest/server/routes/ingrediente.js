@@ -53,6 +53,22 @@ app.put('/ingrediente/:id', (req, res) => {
     });
 });
 
+app.get('/ingrediente/total', (req, res) => {
+    let condicion = {estado:true};
+    Ingrediente.count(condicion)
+    .then(total => {
+        res.json({
+            ok: true,
+            total
+        });
+    })
+    .catch(err =>{
+          return res.status(400).json({
+              ok: false,
+              err
+          });
+    });
+});
 
 // ============================
 // Mostrar todas las ingredientes
@@ -64,8 +80,7 @@ app.get('/ingrediente', (req, res) => {
     let  limite = req.query.length  || process.env.LIMITE;
     limite = Number(limite);
 
-    let regex = new RegExp(req.query.search.value, 'i');
-    let condicion = {estado:true, nombre:regex};
+    let condicion = {estado:true};
 
     let p1 = Ingrediente.find(condicion, 'nombre descripcion')
     .sort('nombre')
@@ -73,16 +88,16 @@ app.get('/ingrediente', (req, res) => {
     .skip(desde)
     .exec();
 
-    let p2 = ingrediente.count(condicion);
+    let p2 = Ingrediente.count(condicion);
 
-    let p3 = ingrediente.count({estado:true});
+    let p3 = Ingrediente.count({estado:true});
     
     Promise.all([p1,p2,p3])
     .then(values =>{
         res.json({
             ok: true,
             dataTable: {
-                draw : req.query.draw,
+                draw : Number(req.query.draw),
                 recordsTotal : values[2],
                 recordsFiltered : values[1],
                 data : values[0]

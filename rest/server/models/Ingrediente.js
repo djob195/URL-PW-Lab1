@@ -23,6 +23,4 @@ let ingredienteSchema = new Schema({
     }
 });
 
-ingredienteSchema.plugin( uniqueValidator, { message:  '{PATH} debe ser unico'} );
-
 module.exports = moongose.model('Ingrediente', ingredienteSchema);

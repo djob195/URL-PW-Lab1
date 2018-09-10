@@ -11,7 +11,7 @@ process.env.NODE_ENV = process.env.NODE_ENV  || 'dev';
 // ==============================
 // Base de datos
 // ==============================
-process.env.URLDB = process.env.URLDB || 'mongodb://localhost:27017/nutricion';
+process.env.URLDB = process.env.URLDB || 'mongodb://admin:laboratorio1@ds251362.mlab.com:51362/comidalab0';
 
 // ==============================
 // Pagineo
