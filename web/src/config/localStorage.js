@@ -1,5 +1,4 @@
-localStorage.setItem('Alimentos',
-{
+const Alimentos = {
     "ok":true,
     "dataTable":
     { 
@@ -46,4 +45,6 @@ localStorage.setItem('Alimentos',
             "descripcion":"es una fruta morada con azul"
         }]
     }
-});
+};
+
+localStorage.setItem('Alimentos',JSON.stringify(Alimentos)); 

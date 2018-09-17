@@ -11,6 +11,8 @@ import Catalogo from './components/js/Catalogo';
 import AlimentoIndex from './components/js/Alimento/Index.js';
 import AlimentoCreate from './components/js/Alimento/Create.js';
 
+import './config/localStorage.js';
+
 
 class App extends Component {
   render() {

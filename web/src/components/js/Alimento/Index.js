@@ -37,9 +37,10 @@ getAllIngredientes(page)
   fetch(toFetch)
   .then(response => {
     //return response.json();
-    return localStorage.getItem('Alimentos');
+    return JSON.parse(localStorage.getItem('Alimentos'));
   })
   .then(json => {
+    console.log(json.ok);
     if(json.ok){
       this.setState({isLoaded:true, totalItems: json.dataTable.recordsFiltered, data: json.dataTable.data, draw: page });
     }
