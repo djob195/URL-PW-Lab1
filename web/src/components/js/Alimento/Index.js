@@ -32,10 +32,12 @@ componentDidMount() {
 getAllIngredientes(page)
 {
   let start = (page-1) * global.pageSize;
-  let  toFetch = global.restApi + "/ingrediente?start=" + start +"&length=" + global.pageSize + "&draw=" + this.state.draw;
-   fetch(toFetch)
+  //let  toFetch = global.restApi + "/ingrediente?start=" + start +"&length=" + global.pageSize + "&draw=" + this.state.draw;
+  let toFetch = global.fakeFetch; 
+  fetch(toFetch)
   .then(response => {
-    return response.json();
+    //return response.json();
+    return localStorage.getItem('Alimentos');
   })
   .then(json => {
     if(json.ok){
