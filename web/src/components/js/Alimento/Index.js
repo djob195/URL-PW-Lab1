@@ -1,8 +1,11 @@
 import React from "react";
 import Pagination from 'react-reactstrap-pagination';
-import { Card, CardTitle, CardText, Row, Col ,Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Row, Col ,Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import {getPagineo} from '../../../config/Alimento/ls_alimento';
+import {NavLink} from 'react-router-dom'
+import '../../css/Alimento/Index.css'
+import '../../fonts/icomoon/style.css';
 
 class Index extends React.Component{
   constructor(props) {
@@ -42,7 +45,6 @@ getAllIngredientes(page)
     return getPagineo(start, global.pageSize);
   })
   .then(json => {
-    console.log(json.ok);
     if(json.ok){
       this.setState({isLoaded:true, totalItems: json.dataTable.recordsFiltered, data: json.dataTable.data, draw: page });
     }
@@ -100,26 +102,39 @@ render() {
            {
              _data.map((dataToRow, indexRow)=>{
                return(
-                 <Row key={indexRow}>
+                 <Row  key={indexRow}>
                    {dataToRow.map((item, index)=>{
                      let keyCol = indexRow+ "." +index; 
                      return(
-                       <Col sm={global.colLength} key={keyCol}>
-                           <Card body>
-                             <CardTitle>{item.nombre}</CardTitle>
-                             <CardText>{item.descripcion}</CardText>
-                             <Button color="danger" onClick={this.toggle}>Eliminar</Button>
-                             <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
-                               <ModalHeader toggle={this.toggle}>Advertencia</ModalHeader>
-                               <ModalBody>
-                                 Desea Eliminar el registro
-                               </ModalBody>
-                               <ModalFooter>
-                                 <Button color="primary" onClick={() => this.HandlerDeleteRegister(item._id)}>Eliminar</Button>{' '}
-                                 <Button color="secondary" onClick={this.toggle}>Cancelar</Button>
-                               </ModalFooter>
-                             </Modal>
-                           </Card>
+                       <Col className="px-0" sm={global.colLength} key={keyCol}>
+                       <div className="item-wrap" style={{
+                         backgroundImage:"url(" + item.image + ")"}}>
+                         <div className="item-container">
+                           <div className="contenedor-dato">
+                             <h2 className="item-title item-title-home">{item.nombre}</h2>
+                             <div className="read-more-home-container">
+                               <Row>
+                                 <Col sm="6">
+                                  <NavLink to={`/alimento/update/${item._id}`} className="orange-read-more">Editar</NavLink>
+                                 </Col>
+                                 <Col sm="6">
+                                  <NavLink to="#" className="orange-read-more" onClick={this.toggle}>Eliminar</NavLink>
+                                 </Col>
+                               </Row>
+                                <Modal isOpen={this.state.modal} toggle={this.toggle}>
+                                  <ModalHeader toggle={this.toggle}>Advertencia</ModalHeader>
+                                  <ModalBody>
+                                    Desea Eliminar el registro
+                                  </ModalBody>
+                                  <ModalFooter>
+                                    <Button color="primary" onClick={() => this.HandlerDeleteRegister(item._id)}>Eliminar</Button>{' '}
+                                    <Button color="secondary" onClick={this.toggle}>Cancelar</Button>
+                                  </ModalFooter>
+                              </Modal>
+                             </div>
+                           </div>
+                         </div>
+                       </div>
                        </Col>);
                    })}
                  </Row>); })}

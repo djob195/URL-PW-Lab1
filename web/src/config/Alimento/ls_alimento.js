@@ -24,3 +24,13 @@ export function getPagineo(start, length)
         }
     };
 }
+
+export function getAlimento(id)
+{
+    let alimentos = getAlimentos();
+    let alimento = alimentos.find(x => x._id === id);
+        return {
+        "ok":true,
+        alimento
+    };
+}

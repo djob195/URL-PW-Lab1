@@ -10,6 +10,7 @@ import Catalogo from './components/js/Catalogo';
 // Alimento
 import AlimentoIndex from './components/js/Alimento/Index.js';
 import AlimentoCreate from './components/js/Alimento/Create.js';
+import AlimentoUpdate from './components/js/Alimento/Update.js';
 
 //import './config/localStorage.js';
 import {startup} from './config/Alimento/ls_alimento';
@@ -27,6 +28,7 @@ class App extends Component {
             <Route path="/receta" component={Receta}  />
             <Route path="/catalogo" component={Catalogo}  />
             <Route path="/alimento/index" component={AlimentoIndex}  />
+            <Route path="/alimento/update/:id" component={AlimentoUpdate}  />
             <Route path="/alimento/create" component={AlimentoCreate}  />
             <Route  component={Error} />
           </Switch>
