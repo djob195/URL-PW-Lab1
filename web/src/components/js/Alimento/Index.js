@@ -2,6 +2,7 @@ import React from "react";
 import Pagination from 'react-reactstrap-pagination';
 import { Card, CardTitle, CardText, Row, Col ,Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
+import {getPagineo} from '../../../config/Alimento/ls_alimento';
 
 class Index extends React.Component{
   constructor(props) {
@@ -37,7 +38,8 @@ getAllIngredientes(page)
   fetch(toFetch)
   .then(response => {
     //return response.json();
-    return JSON.parse(localStorage.getItem('Alimentos'));
+    //return JSON.parse(localStorage.getItem('Alimentos'));
+    return getPagineo(start, global.pageSize);
   })
   .then(json => {
     console.log(json.ok);

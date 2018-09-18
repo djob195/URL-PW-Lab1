@@ -1,17 +1,18 @@
-const startup = () =>
-{
-    import Alimentos from './content.json';
-    localStorage.setItem('Alimentos',JSON.stringify(Alimentos)); 
-}
+import Alimentos from './content.json';
 
-const getAlimentos = () =>
+function getAlimentos()
 {
     return JSON.parse(localStorage.getItem('Alimentos'));
 }
 
-const getPagineo = (start,length, draw) =>
+export function startup()
 {
-    let alimentos = this.getAlimentos();
+    localStorage.setItem('Alimentos',JSON.stringify(Alimentos)); 
+}
+
+export function getPagineo(start, length)
+{
+    let alimentos = getAlimentos();
     let recordsFiltered = alimentos.length;
     alimentos = alimentos.slice(start, start + length);
     return {

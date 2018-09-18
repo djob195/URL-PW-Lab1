@@ -37,4 +37,9 @@
     "_id": "d4fc96b7-3b1c-40b6-9f47-d496c18c25ea",
     "nombre":"blueberrt",
     "descripcion":"es una fruta morada con azul"
+},
+{
+    "_id": "d4fc96b7-3b1c-40b6-9f47-d496c18c25ea",
+    "nombre":"platano",
+    "descripcion":"no es uuna fruta"
 }]
