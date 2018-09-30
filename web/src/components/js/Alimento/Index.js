@@ -2,7 +2,7 @@ import React from "react";
 import Pagination from 'react-reactstrap-pagination';
 import { Row, Col ,Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
-import {getPagineo} from '../../../config/Alimento/ls_alimento';
+import {getPagineo,deleteAlimento} from '../../../config/Alimento/ls_alimento';
 import {NavLink} from 'react-router-dom'
 import '../../css/Alimento/Index.css'
 import '../../fonts/icomoon/style.css';
@@ -16,16 +16,18 @@ class Index extends React.Component{
       totalItems: 0,
       data: [],
       modal: false,
-      draw: 1
+      draw: 1,
+      idDelete: 0
     };
     this.toggle = this.toggle.bind(this);
     this.HandlerDeleteRegister = this.HandlerDeleteRegister.bind(this);
     this.getAllIngredientes = this.getAllIngredientes.bind(this);
   }
 
- toggle() {
+ toggle(idDelete) {
     this.setState({
-      modal: !this.state.modal
+      modal: !this.state.modal,
+      idDelete
     });
   }
 
@@ -61,15 +63,19 @@ getAllIngredientes(page)
 HandlerDeleteRegister(id)
 {
   this.setState({isLoaded:false});
-  let  toFetch = global.restApi + "/ingrediente/" + id;
-   fetch(toFetch, {method: 'delete'})
+  //let  toFetch = global.restApi + "/ingrediente/" + id;
+  //fetch(toFetch, {method: 'delete'})
+  let toFetch = global.fakeFetch;
+  fetch(toFetch)
   .then(response => {
-    return response.json();
+    let json = deleteAlimento(id);
+    return json;
+    //return response.json();
   })
   .then(json => {
     if(json.ok){
       let _data = this.state.data;
-      _data = _data.filter(item =>{return item._id !== json.ingrediente._id});
+      _data = _data.filter(item =>{return item._id !== json.alimento._id});
       this.setState({isLoaded:true, modal:!this.state.modal, data:_data });
     }
     else
@@ -118,19 +124,9 @@ render() {
                                   <NavLink to={`/alimento/update/${item._id}`} className="orange-read-more">Editar</NavLink>
                                  </Col>
                                  <Col sm="6">
-                                  <NavLink to="#" className="orange-read-more" onClick={this.toggle}>Eliminar</NavLink>
+                                  <NavLink to="#" className="orange-read-more" onClick={() => this.toggle(item._id)}>Eliminar</NavLink>
                                  </Col>
                                </Row>
-                                <Modal isOpen={this.state.modal} toggle={this.toggle}>
-                                  <ModalHeader toggle={this.toggle}>Advertencia</ModalHeader>
-                                  <ModalBody>
-                                    Desea Eliminar el registro
-                                  </ModalBody>
-                                  <ModalFooter>
-                                    <Button color="primary" onClick={() => this.HandlerDeleteRegister(item._id)}>Eliminar</Button>{' '}
-                                    <Button color="secondary" onClick={this.toggle}>Cancelar</Button>
-                                  </ModalFooter>
-                              </Modal>
                              </div>
                            </div>
                          </div>
@@ -138,6 +134,16 @@ render() {
                        </Col>);
                    })}
                  </Row>); })}
+          <Modal isOpen={this.state.modal} toggle={this.toggle}>
+            <ModalHeader toggle={this.toggle}>Advertencia</ModalHeader>
+            <ModalBody>
+              Desea Eliminar el registro
+            </ModalBody>
+            <ModalFooter>
+              <Button color="primary" onClick={() => this.HandlerDeleteRegister(this.state.idDelete)}>Eliminar</Button>{' '}
+              <Button color="secondary" onClick={() => this.toggle(0)}>Cancelar</Button>
+            </ModalFooter>
+          </Modal>
           <Pagination totalItems={totalItems} pageSize={global.pageSize} onSelect={this.getAllIngredientes}/>
         </div>
       );

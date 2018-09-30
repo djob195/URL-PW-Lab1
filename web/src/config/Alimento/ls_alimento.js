@@ -34,6 +34,7 @@ export function insertAlimento(alimento)
 {
     let alimentos = getAlimentos();
     alimentos.push(alimento);
+    console.log(alimentos);
     setAlimentos(alimentos);
     return {
             "ok":true,

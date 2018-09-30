@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
-import {getAlimento} from '../../../config/Alimento/ls_alimento';
+import {getAlimento, updateAlimento} from '../../../config/Alimento/ls_alimento';
 
 class Update extends React.Component{ 
     
@@ -42,22 +42,29 @@ getIngrediente(id)
 }
 
 handleSubmit(event) {
+    const { match: { params } } = this.props;
     this.setState({isLoaded:false});
     event.preventDefault();
     var data =  JSON.stringify({
+        _id: params.id,
         nombre: document.getElementById('nombre').value,
-        descripcion: document.getElementById('descripcion').value
+        descripcion: document.getElementById('descripcion').value,
+        fechaIngreso: Date.now()
     });
-    fetch(global.restApi+ "/ingrediente", {
+    let toFetch = global.fakeFetch; 
+    /*fetch(global.restApi+ "/ingrediente", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
         },
       body: data,
-    })
+    })*/
+    fetch(toFetch)
     .then(response => {
-        return response.json();
+        let json = updateAlimento(JSON.parse(data));
+        return json;
+        //return response.json();
     })
     .then(json => {
         if(json.ok){

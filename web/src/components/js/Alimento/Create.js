@@ -1,6 +1,8 @@
 import React from 'react';
 import { Button, Col, Form, FormGroup, Label, Input } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
+import uuidv1 from 'uuid/v1';
+import {insertAlimento} from '../../../config/Alimento/ls_alimento';
 
 class Create extends React.Component{ 
     
@@ -17,19 +19,27 @@ handleSubmit(event) {
     this.setState({isLoaded:false});
     event.preventDefault();
     var data =  JSON.stringify({
+        _id: uuidv1(),
         nombre: document.getElementById('nombre').value,
-        descripcion: document.getElementById('descripcion').value
+        descripcion: document.getElementById('descripcion').value,
+        image: "http://localhost:3000/img/frutas2.jpg",
+        fechaIngreso: Date.now()
     });
-    fetch(global.restApi+ "/ingrediente", {
+    let toFetch = global.fakeFetch; 
+    /*fetch(global.restApi+ "/ingrediente", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
         },
       body: data,
-    })
+    })*/
+     
+    fetch(toFetch)
     .then(response => {
-        return response.json();
+        let json = insertAlimento(JSON.parse(data));
+        return json;
+        //return response.json();
     })
     .then(json => {
         if(json.ok){
