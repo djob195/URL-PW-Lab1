@@ -13,6 +13,7 @@ constructor() {
       isLoaded: true
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBackIndex = this.handleBackIndex.bind(this);
   }
 
 handleSubmit(event) {
@@ -58,6 +59,12 @@ handleSubmit(event) {
     });
   }
 
+  handleBackIndex(event) {
+    this.props.history.push('/alimento/index');
+  }
+
+
+
     render() {
         const { error, isLoaded} = this.state;
         if (error) {
@@ -93,7 +100,14 @@ handleSubmit(event) {
                 <Input type="file" name="image" id="image" />
             </Col>
             </FormGroup>
-            <Button  onClick={this.handleSubmit}>Crear</Button>
+            <FormGroup row>
+            <Col sm={6}>
+                <Button  onClick={this.handleSubmit}>Crear</Button>
+            </Col>
+            <Col sm={6}>
+                <Button  onClick={this.handleBackIndex}>Regresar</Button>
+            </Col>
+            </FormGroup>
         </Form>
         </div>
         );

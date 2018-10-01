@@ -1,6 +1,6 @@
 // Configuración de pagineo
 global.pageSize = 4;
-global.dataByRow = 2;
+global.dataByRow = 4;
 global.colLength =  parseInt(12/global.dataByRow,10);
 
 // Configuración de API

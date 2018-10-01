@@ -13,6 +13,7 @@ constructor() {
       alimento: null
     };
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleBackIndex = this.handleBackIndex.bind(this);
   }
 
 componentDidMount() {
@@ -83,6 +84,10 @@ handleSubmit(event) {
     });
   }
 
+  handleBackIndex(event) {
+    this.props.history.push('/alimento/index');
+  }
+
     render() {
         const { error, isLoaded, alimento} = this.state;
         if (error) {
@@ -92,7 +97,7 @@ handleSubmit(event) {
         }
         return (
         <div>
-        <h1>Editar el alimento con el identificador: {alimento._id}</h1>
+        <h1>Editar el alimento</h1>
             <Form id="formularioAlimento">
             <FormGroup row>
             <Label for="nombre" sm={2} size="lg">Nombre</Label>
@@ -118,7 +123,14 @@ handleSubmit(event) {
                 <img src={alimento.image} alt=""/>
             </Col>
             </FormGroup>
-            <Button  onClick={this.handleSubmit}>Editar</Button>
+            <FormGroup row>
+            <Col sm={6}>
+                <Button  onClick={this.handleSubmit}>Editar</Button>
+            </Col>
+            <Col sm={6}>
+                <Button  onClick={this.handleBackIndex}>Regresar</Button>
+            </Col>
+            </FormGroup>
         </Form>
         </div>
         );
