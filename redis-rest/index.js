@@ -4,7 +4,7 @@ const methodOverride = require('method-override');
 const redis = require('redis');
 const {cronUpdateIngredientes} = require('./cron/ingrediente.cron');
 const {deleteIngrediente, updateIngrediente, InsertIngrediente} = require('./services/ingrediente.service');
-require('./config');
+require('./config/index.js');
 
 
 let client = redis.createClient();
@@ -117,20 +117,22 @@ app.get('/ingrediente',(req, res) => {
 app.delete('/ingrediente/:id',(req, res) => {
     let id = req.params.id;
     try {
-        let json = deleteIngrediente(id);
-        if (json.ok === true){
-            client.hdel(id,(err,obj) =>{
-                if(err){
-                    console.log(err);
-                }
-                res.json({
-                    ok: true,
-                    ingrediente: json
-                });
-            })
-        }else{
-            console.log(json.err);
-        }
+        deleteIngrediente(id)
+        .then(json =>{
+            if (json.ok === true){
+                client.hdel(id,(err,obj) =>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.json({
+                        ok: true,
+                        ingrediente: json
+                    });
+                })
+            }else{
+                console.log(json.err);
+            }
+        });
     } catch (error) {
         console.log(error);   
     }
@@ -139,32 +141,34 @@ app.delete('/ingrediente/:id',(req, res) => {
 app.post('/ingrediente', (req, res) => {
     let body = req.body;
     try {
-        let json = InsertIngrediente(body);
-        if(json.ok === true) {
-            client.hmset(json.ingrediente._id, [
-                "nombre",json.ingrediente.nombre,
-                "descripcion". json.ingrediente.descripcion  || "sin descripcion",
-                "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "dd/mm/aaaa") || "Sin fecha de ingreso",
-                "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "dd/mm/aaaa") || "Sin fecha de actualizacion",
-                "estado",element.estado.toString()
-                ],
-            (err, reply) =>{
-                if(err){
-                    console.log(err);
-                }
-                client.sadd("hingredientes",[json.ingrediente._id],(err,reply)=>{
+        InsertIngrediente(body)
+        .then(json =>{
+            if(json.ok === true) {
+                client.hmset(json.ingrediente._id, [
+                    "nombre",json.ingrediente.nombre,
+                    "descripcion". json.ingrediente.descripcion  || "sin descripcion",
+                    "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "dd/mm/aaaa") || "Sin fecha de ingreso",
+                    "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "dd/mm/aaaa") || "Sin fecha de actualizacion",
+                    "estado",element.estado.toString()
+                    ],
+                (err, reply) =>{
                     if(err){
                         console.log(err);
-                    }     
-                    res.json({
-                        ok: true,
-                        ingrediente: json
-                    });                     
+                    }
+                    client.sadd("hingredientes",[json.ingrediente._id],(err,reply)=>{
+                        if(err){
+                            console.log(err);
+                        }     
+                        res.json({
+                            ok: true,
+                            ingrediente: json
+                        });                     
+                    });
                 });
-            });
-        } else {
-            console.log(json.err);
-        }
+            } else {
+                console.log(json.err);
+            }
+        })
     } catch (error) {
         console.log(error);   
     }
@@ -174,27 +178,29 @@ app.put('/ingrediente/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
     try {
-        let json = updateIngrediente(id,body);
-        if(json.ok === true) {
-            client.hmset(json.ingrediente._id, [
-                "nombre",json.ingrediente.nombre,
-                "descripcion". json.ingrediente.descripcion  || "sin descripcion",
-                "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "dd/mm/aaaa") || "Sin fecha de ingreso",
-                "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "dd/mm/aaaa") || "Sin fecha de actualizacion",
-                "estado",element.estado.toString()
-                ],
-            (err, reply) =>{
-                if(err){
-                    console.log(err);
-                }
-                res.json({
-                    ok: true,
-                    ingrediente: json
+        updateIngrediente(id,body)
+        .then(json =>{
+            if(json.ok === true) {
+                client.hmset(json.ingrediente._id, [
+                    "nombre",json.ingrediente.nombre,
+                    "descripcion". json.ingrediente.descripcion  || "sin descripcion",
+                    "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "dd/mm/aaaa") || "Sin fecha de ingreso",
+                    "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "dd/mm/aaaa") || "Sin fecha de actualizacion",
+                    "estado",element.estado.toString()
+                    ],
+                (err, reply) =>{
+                    if(err){
+                        console.log(err);
+                    }
+                    res.json({
+                        ok: true,
+                        ingrediente: json
+                    });
                 });
-            });
-        }else{
-            console.log(json.err);
-        }
+            }else{
+                console.log(json.err);
+            }
+        });
     } catch (error) {
         console.log(error);   
     }
