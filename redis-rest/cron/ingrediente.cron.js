@@ -1,6 +1,7 @@
 const { getIngredientes } = require('../services/ingrediente.service');
 const { localizationTime } = require ('../utils');
 const dateFormat = require('dateformat');
+const cron = require('node-cron');
 
 const cronUpdateIngredientes = (clientRedis) =>{
     dateFormat.i18n = localizationTime();

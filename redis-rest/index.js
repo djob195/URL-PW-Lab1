@@ -91,8 +91,8 @@ app.get('/ingrediente',(req, res) => {
             })
         }
         let  recordsTotal =  data.length;
-        let  recordsFiltered = data.length,
-        data = data.sort(function(a, b) {
+        let  recordsFiltered = data.length;
+        data.sort(function(a, b) {
             if (a.nombre > b.nombre) {
               return 1;
             }

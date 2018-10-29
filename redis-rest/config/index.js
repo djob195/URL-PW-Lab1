@@ -3,7 +3,7 @@
 // ==============================
 process.env.PORT =  process.env.PORT || 3000;
 
-process.env.REST_API = "http://localhost:3001/";
+process.env.REST_API = "http://localhost:8081/";
 
 // ==============================
 // Pagineo
