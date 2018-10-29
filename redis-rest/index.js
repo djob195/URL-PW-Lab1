@@ -74,43 +74,48 @@ app.get('/ingrediente',(req, res) => {
         for (let index = 0; index < objects.length; index++) {
             const element = objects[index];
             client.hgetall(element,(err, obj) =>{
+                console.log(index);
                 if(err){
                     console.log(err);
                 }
                 else{
                     let ingrediente = {
-                        _id: obj._id,
-                        nombre: obj.alimento,
+                        _id: element,
+                        nombre: obj.nombre,
                         descripcion: obj.descripcion,
                         fechaIngreso: obj.fechaIngreso,
                         fechaActualizacion: obj.fechaActualizacion,
                         estado: obj.estado
                     }
                     data.push(ingrediente);
+                    if(index === objects.length-1)
+                    {
+                        let  recordsTotal =  data.length;
+                        let  recordsFiltered = data.length;
+                        data.sort(function(a, b) {
+                            if (a.nombre > b.nombre) {
+                              return 1;
+                            }
+                            if (a.nombre < b.nombre) {
+                              return -1;
+                            }
+                            return 0;
+                          });
+                        data = data.slice(desde, desde + limite);
+                        console.log(data);
+                        res.json({
+                            ok: true,
+                            dataTable: {
+                                draw : Number(req.query.draw),
+                                recordsTotal,
+                                recordsFiltered,
+                                data : data
+                             }
+                        });
+                    }
                 }
             })
         }
-        let  recordsTotal =  data.length;
-        let  recordsFiltered = data.length;
-        data.sort(function(a, b) {
-            if (a.nombre > b.nombre) {
-              return 1;
-            }
-            if (a.nombre < b.nombre) {
-              return -1;
-            }
-            return 0;
-          });
-        data = data.slice(desde, desde + limite);
-        res.json({
-            ok: true,
-            dataTable: {
-                draw : Number(req.query.draw),
-                recordsTotal,
-                recordsFiltered,
-                data : data
-             }
-        });
     })
 });
 
