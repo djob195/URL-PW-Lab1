@@ -72,6 +72,18 @@ app.get('/ingrediente',(req, res) => {
                 err
             });
         }
+        if(objects.length === 0)
+        {
+            return res.json({
+                ok: true,
+                dataTable: {
+                    draw : Number(req.query.draw),
+                    recordsTotal: 0,
+                    recordsFiltered: 0,
+                    data : []
+                 }
+            });
+        }
         let data = [];
         for (let index = 0; index < objects.length; index++) {
             const element = objects[index];
@@ -126,15 +138,19 @@ app.delete('/ingrediente/:id',(req, res) => {
     try {
         deleteIngrediente(id)
         .then(json =>{
+            console.log(json);
             if (json.ok === true){
-                client.hdel(id,(err,obj) =>{
+                client.hdel(id,["nombre","descripcion",
+                "fechaIngreso","fechaActualizacion","estado"],(err,obj) =>{
                     if(err){
                         console.log(err);
                     }
-                    res.json({
-                        ok: true,
-                        ingrediente: json
-                    });
+                    client.srem("hingredientes",[id],(err, del) =>{
+                        if(err){
+                            console.log(err);
+                        }
+                        res.json(json);
+                    })
                 })
             }else{
                 console.log(json.err);
@@ -166,10 +182,7 @@ app.post('/ingrediente', (req, res) => {
                         if(err){
                             console.log(err);
                         }     
-                        res.json({
-                            ok: true,
-                            ingrediente: json
-                        });                     
+                        res.json(json);                     
                     });
                 });
             } else {
@@ -199,10 +212,7 @@ app.put('/ingrediente/:id', (req, res) => {
                     if(err){
                         console.log(err);
                     }
-                    res.json({
-                        ok: true,
-                        ingrediente: json
-                    });
+                    res.json(json);
                 });
             }else{
                 console.log(json.err);
