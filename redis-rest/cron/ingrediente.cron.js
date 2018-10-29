@@ -14,8 +14,8 @@ const cronUpdateIngredientes = (clientRedis) =>{
                         clientRedis.hmset(element._id, [
                             "nombre",element.nombre,
                             "descripcion", element.descripcion  || "sin descripcion",
-                            "fechaIngreso", dateFormat(element.fechaIngreso, "dd/mm/aaaa"),
-                            "fechaActualizacion", dateFormat(element.fechaActualizacion, "dd/mm/aaaa"),
+                            "fechaIngreso", dateFormat(element.fechaIngreso, "mm/dd/yyyy"),
+                            "fechaActualizacion", dateFormat(element.fechaActualizacion, "mm/dd/yyyy"),
                             "estado",element.estado.toString()
                             ],
                         (err, reply) =>{

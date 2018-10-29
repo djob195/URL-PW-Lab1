@@ -43,8 +43,8 @@ app.get('/ingrediente/:id',(req, res) => {
         }
         else{
             let ingrediente = {
-                _id: obj._id,
-                nombre: obj.alimento,
+                _id: id,
+                nombre: obj.nombre,
                 descripcion: obj.descripcion,
                 fechaIngreso: obj.fechaIngreso,
                 fechaActualizacion: obj.fechaActualizacion,
@@ -170,8 +170,8 @@ app.post('/ingrediente', (req, res) => {
                 client.hmset(json.ingrediente._id, [
                     "nombre",json.ingrediente.nombre,
                     "descripcion", json.ingrediente.descripcion  || "sin descripcion",
-                    "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "dd/mm/aaaa") || "Sin fecha de ingreso",
-                    "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "dd/mm/aaaa") || "Sin fecha de actualizacion",
+                    "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "mm/dd/yyyy") || "Sin fecha de ingreso",
+                    "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "mm/dd/yyyy") || "Sin fecha de actualizacion",
                     "estado",json.estado
                     ],
                 (err, reply) =>{
@@ -197,16 +197,18 @@ app.post('/ingrediente', (req, res) => {
 app.put('/ingrediente/:id', (req, res) => {
     let id = req.params.id;
     let body = req.body;
+    console.log("entro a modificar");
     try {
         updateIngrediente(id,body)
         .then(json =>{
             if(json.ok === true) {
+                console.log(json.ingrediente);
                 client.hmset(json.ingrediente._id, [
                     "nombre",json.ingrediente.nombre,
-                    "descripcion". json.ingrediente.descripcion  || "sin descripcion",
-                    "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "dd/mm/aaaa") || "Sin fecha de ingreso",
-                    "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "dd/mm/aaaa") || "Sin fecha de actualizacion",
-                    "estado",element.estado.toString()
+                    "descripcion", json.ingrediente.descripcion  || "sin descripcion",
+                    "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "mm/dd/yyyy") || "Sin fecha de ingreso",
+                    "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "mm/dd/yyyy") || "Sin fecha de actualizacion",
+                    "estado",json.ingrediente.toString()
                     ],
                 (err, reply) =>{
                     if(err){
