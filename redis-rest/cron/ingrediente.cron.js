@@ -13,7 +13,7 @@ const cronUpdateIngredientes = (clientRedis) =>{
                     data.dataTable.data.forEach(element => {
                         clientRedis.hmset(element._id, [
                             "nombre",element.nombre,
-                            "descripcion". element.descripcion  || "sin descripcion",
+                            "descripcion", element.descripcion  || "sin descripcion",
                             "fechaIngreso", dateFormat(element.fechaIngreso, "dd/mm/aaaa"),
                             "fechaActualizacion", dateFormat(element.fechaActualizacion, "dd/mm/aaaa"),
                             "estado",element.estado.toString()
@@ -22,7 +22,7 @@ const cronUpdateIngredientes = (clientRedis) =>{
                             if(err){
                                 console.log(err);
                             }
-                            client.sadd("hingredientes",[element._id],(err,reply)=>{
+                            clientRedis.sadd("hingredientes",[element._id],(err,reply)=>{
                                 if(err){
                                     console.log(err);
                                 }                          
