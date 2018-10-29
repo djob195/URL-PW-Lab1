@@ -38,13 +38,13 @@ componentDidMount() {
 getAllIngredientes(page)
 {
   let start = (page-1) * global.pageSize;
-  //let  toFetch = global.restApi + "/ingrediente?start=" + start +"&length=" + global.pageSize + "&draw=" + this.state.draw;
-  let toFetch = global.fakeFetch; 
+  let  toFetch = global.restApi + "/ingrediente?start=" + start +"&length=" + global.pageSize + "&draw=" + this.state.draw;
+  //let toFetch = global.fakeFetch; 
   fetch(toFetch)
   .then(response => {
-    //return response.json();
+    return response.json();
     //return JSON.parse(localStorage.getItem('Alimentos'));
-    return getPagineo(start, global.pageSize);
+    //return getPagineo(start, global.pageSize);
   })
   .then(json => {
     if(json.ok){
@@ -63,14 +63,14 @@ getAllIngredientes(page)
 HandlerDeleteRegister(id)
 {
   this.setState({isLoaded:false});
-  //let  toFetch = global.restApi + "/ingrediente/" + id;
-  //fetch(toFetch, {method: 'delete'})
-  let toFetch = global.fakeFetch;
+  let  toFetch = global.restApi + "/ingrediente/" + id;
+  fetch(toFetch, {method: 'delete'})
+  //let toFetch = global.fakeFetch;
   fetch(toFetch)
   .then(response => {
-    let json = deleteAlimento(id);
-    return json;
-    //return response.json();
+    //let json = deleteAlimento(id);
+    //return json;
+    return response.json();
   })
   .then(json => {
     if(json.ok){

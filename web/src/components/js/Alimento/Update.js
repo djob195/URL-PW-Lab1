@@ -52,20 +52,20 @@ handleSubmit(event) {
         descripcion: document.getElementById('descripcion').value,
         fechaIngreso: Date.now()
     });
-    let toFetch = global.fakeFetch; 
-    /*fetch(global.restApi+ "/ingrediente", {
-      method: 'POST',
+    //let toFetch = global.fakeFetch; 
+    fetch(global.restApi+ "/ingrediente", {
+      method: 'PUT',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
         },
       body: data,
-    })*/
-    fetch(toFetch)
+    })
+    //fetch(toFetch)
     .then(response => {
-        let json = updateAlimento(JSON.parse(data));
-        return json;
-        //return response.json();
+        /*let json = updateAlimento(JSON.parse(data));
+        return json;*/
+        return response.json();
     })
     .then(json => {
         if(json.ok){

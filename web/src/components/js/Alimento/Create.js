@@ -26,21 +26,20 @@ handleSubmit(event) {
         image: "http://localhost:3000/img/frutas2.jpg",
         fechaIngreso: Date.now()
     });
-    let toFetch = global.fakeFetch; 
-    /*fetch(global.restApi+ "/ingrediente", {
+    //let toFetch = global.fakeFetch; 
+    fetch(global.restApi+ "/ingrediente", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
         },
       body: data,
-    })*/
-     
-    fetch(toFetch)
+    })
+    //fetch(toFetch)
     .then(response => {
-        let json = insertAlimento(JSON.parse(data));
-        return json;
-        //return response.json();
+        /*let json = insertAlimento(JSON.parse(data));
+        return json;*/
+        return response.json();
     })
     .then(json => {
         if(json.ok){

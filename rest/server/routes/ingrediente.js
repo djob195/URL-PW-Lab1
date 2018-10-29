@@ -82,11 +82,7 @@ app.get('/ingrediente', (req, res) => {
 
     let condicion = {estado:true};
 
-    let p1 = Ingrediente.find(condicion, 'nombre descripcion')
-    .sort('nombre')
-    .limit(limite)
-    .skip(desde)
-    .exec();
+    let p1 = Ingrediente.find(condicion, 'nombre descripcion fechaIngreso fechaActualizacion estado');
 
     let p2 = Ingrediente.count(condicion);
 
