@@ -4,6 +4,8 @@ const methodOverride = require('method-override');
 const redis = require('redis');
 const {cronUpdateIngredientes} = require('./cron/ingrediente.cron');
 const {deleteIngrediente, updateIngrediente, InsertIngrediente} = require('./services/ingrediente.service');
+const dateFormat = require('dateformat');
+
 require('./config/index.js');
 
 
@@ -151,10 +153,10 @@ app.post('/ingrediente', (req, res) => {
             if(json.ok === true) {
                 client.hmset(json.ingrediente._id, [
                     "nombre",json.ingrediente.nombre,
-                    "descripcion". json.ingrediente.descripcion  || "sin descripcion",
+                    "descripcion", json.ingrediente.descripcion  || "sin descripcion",
                     "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "dd/mm/aaaa") || "Sin fecha de ingreso",
                     "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "dd/mm/aaaa") || "Sin fecha de actualizacion",
-                    "estado",element.estado.toString()
+                    "estado",json.estado
                     ],
                 (err, reply) =>{
                     if(err){
