@@ -8,7 +8,7 @@ let Ingrediente = require('../models/ingrediente');
 // ============================
 app.post('/ingrediente', (req, res) => {
     let body = req.body;
-
+    console.log(body);
     let ingrediente = new Ingrediente({
         nombre: body.nombre,
         descripcion: body.descripcion,
@@ -16,6 +16,7 @@ app.post('/ingrediente', (req, res) => {
     });
     ingrediente.save()
     .then(ingredienteDB =>{
+        console.log(ingredienteDB);
         res.json({
             ok: true,
             ingrediente: ingredienteDB

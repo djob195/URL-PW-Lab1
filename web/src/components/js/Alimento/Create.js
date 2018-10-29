@@ -27,7 +27,7 @@ handleSubmit(event) {
         fechaIngreso: Date.now()
     });
     //let toFetch = global.fakeFetch; 
-    fetch(global.restApi+ "/ingrediente", {
+    fetch(global.restApi+ "ingrediente", {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

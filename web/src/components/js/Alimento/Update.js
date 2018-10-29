@@ -23,7 +23,7 @@ componentDidMount() {
 
 getIngrediente(id)
 {
-  let toFetch = global.fakeFetch; 
+  let toFetch = global.restApi+ "ingrediente/" + id; 
   fetch(toFetch)
   .then(response => {
     return getAlimento(id);
@@ -53,7 +53,7 @@ handleSubmit(event) {
         fechaIngreso: Date.now()
     });
     //let toFetch = global.fakeFetch; 
-    fetch(global.restApi+ "/ingrediente", {
+    fetch(global.restApi+ "ingrediente", {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',

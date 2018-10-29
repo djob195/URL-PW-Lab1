@@ -38,10 +38,11 @@ componentDidMount() {
 getAllIngredientes(page)
 {
   let start = (page-1) * global.pageSize;
-  let  toFetch = global.restApi + "/ingrediente?start=" + start +"&length=" + global.pageSize + "&draw=" + this.state.draw;
+  let  toFetch = global.restApi + "ingrediente?start=" + start +"&length=" + global.pageSize + "&draw=" + this.state.draw;
   //let toFetch = global.fakeFetch; 
   fetch(toFetch)
   .then(response => {
+    console.log(response);
     return response.json();
     //return JSON.parse(localStorage.getItem('Alimentos'));
     //return getPagineo(start, global.pageSize);
@@ -63,7 +64,7 @@ getAllIngredientes(page)
 HandlerDeleteRegister(id)
 {
   this.setState({isLoaded:false});
-  let  toFetch = global.restApi + "/ingrediente/" + id;
+  let  toFetch = global.restApi + "ingrediente/" + id;
   fetch(toFetch, {method: 'delete'})
   //let toFetch = global.fakeFetch;
   fetch(toFetch)

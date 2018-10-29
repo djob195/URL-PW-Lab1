@@ -33,7 +33,7 @@ const updateIngrediente = async (id,body) =>{
 }
 
 const InsertIngrediente = async (body) =>{   
-    const response = await fetch(`${process.env.REST_API}ingrediente/${id}`, {
+    const response = await fetch(`${process.env.REST_API}ingrediente`, {
         method: 'POST', 
         body: JSON.stringify(body),
         headers:{

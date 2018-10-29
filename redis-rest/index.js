@@ -108,7 +108,7 @@ app.get('/ingrediente',(req, res) => {
                 draw : Number(req.query.draw),
                 recordsTotal,
                 recordsFiltered,
-                data : values[0]
+                data : data
              }
         });
     })
