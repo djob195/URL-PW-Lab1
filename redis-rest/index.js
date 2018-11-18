@@ -1,3 +1,11 @@
+global.base_dir = __dirname;
+global.abs_path = function(path) {
+  return base_dir + path;
+}
+global.include = function(file) {
+  return require(abs_path('/' + file));
+}
+
 const express = require('express');
 const bodyParser = require("body-parser");
 const methodOverride = require('method-override');
@@ -9,7 +17,7 @@ const dateFormat = require('dateformat');
 require('./config/index.js');
 
 
-let client = redis.createClient();
+let client = redis.createClient(process.env.REDIS_PORT, process.env.REDIS_HOST);
 
 client.on('connect', ()=>{
     console.log("connected to redis");
@@ -30,6 +38,13 @@ app.use(bodyParser.json());
 
 app.listen(process.env.PORT, () =>{
     console.log(`server stated on port ${process.env.PORT}`);
+});
+
+app.get('/',(req, res) => {
+    res.json({
+        ok: true,
+        message: "hello word"
+    });
 });
 
 app.get('/ingrediente/:id',(req, res) => {

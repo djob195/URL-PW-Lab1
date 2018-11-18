@@ -31,3 +31,10 @@ app.listen(process.env.PORT , () => {
     console.log(`Escuchando en el puerto ${process.env.PORT}`);
 });
 
+
+app.get('/', (req, res) => {
+    res.json({
+        ok: true,
+        message: "hello word"
+    });
+});

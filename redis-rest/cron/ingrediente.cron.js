@@ -1,5 +1,5 @@
-const { getIngredientes } = require('../services/ingrediente.service');
-const { localizationTime } = require ('../utils');
+const { getIngredientes } = include('services/ingrediente.service');
+const { localizationTime } = include('utils');
 const dateFormat = require('dateformat');
 const cron = require('node-cron');
 

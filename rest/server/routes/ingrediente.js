@@ -1,6 +1,6 @@
 const express =   require('express');
 let app = express();
-let Ingrediente = require('../models/ingrediente');
+let Ingrediente = require('./ingrediente-models');
 
 
 // ============================
