@@ -4,5 +4,5 @@ global.dataByRow = 4;
 global.colLength =  parseInt(12/global.dataByRow,10);
 
 // Configuración de API
-global.restApi = "http://redis-client-contr:8081/";
+global.restApi = "http://104.155.163.128/";
 global.fakeFetch = "http://localhost/helloWorld.html";

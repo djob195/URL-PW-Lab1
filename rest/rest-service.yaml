@@ -4,13 +4,13 @@ metadata:
   name: rest-service
   labels:
     app: rest
-    role: api-db
+    role: rest-client
     tier: backend
 spec:
   ports:
-  - port: 80
+  - port: 8080
     targetPort: 8080
   selector:
     app: rest
-    role: api-db
+    role: rest-client
     tier: backend

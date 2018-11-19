@@ -29,7 +29,7 @@ spec:
         - name: PORT
           value: "8081"
         - name: REST_API
-          value: "http://rest-service"
+          value: "http://rest-service:8080/"
         - name: REDIS_PORT
           value: "6379"
         - name: REDIS_HOST
