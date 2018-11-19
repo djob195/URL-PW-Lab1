@@ -6,7 +6,6 @@ metadata:
   # from the labels in the pod template if not set
   labels:
     app: rest
-    role: api-db
     tier: backend
 spec:
   replicas: 1
@@ -14,24 +13,28 @@ spec:
   template:
     metadata:
       labels:
-        app: web
-        role: api-db
+        app: rest
         tier: backend
     spec:
       containers:
-      - name: rest-web
-        image: 
-        args: ["3000"]
+      - name: restweb
+        # Uncomment this line to use the public docker hub image
+        image: djob195/rest-web2
         resources:
+          # The resources specification for each Pod, more details here:
+          # http://kubernetes.io/v1.1/docs/design/resources.html#resource-specifications
           requests:
             cpu: 100m
             memory: 100Mi
         env:
         - name: PORT
-          value: 3000
+          value: "8080" 
         - name: NODE_ENV
-          value: prod
+          value: "prod"
         - name: URLDB
-          value: mongodb://admin:123456A@ds255253.mlab.com:55253/web2                                  
+          value: "mongodb://admin:123456A@ds255253.mlab.com:55253/web2"
         ports:
-        - containerPort: 3000
+          # More details on the container ports here,
+          # http://kubernetes.io/v1.1/docs/api-reference/v1/definitions.html#_v1_containerport
+          # The port exposed by the container
+        - containerPort: 8080
