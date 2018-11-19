@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: webapp
-        image: 
+        image: djob195/web
         resources:
           requests:
             cpu: 100m
