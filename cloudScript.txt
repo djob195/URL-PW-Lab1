@@ -1,0 +1,13 @@
+gcloud container clusters create guestbook --num-nodes=6 --machine-type g1-small
+
+kubectl create -f rest-controller.yaml
+kubectl create -f rest-service.yaml
+
+kubectl create -f redis-master-controller.yaml
+kubectl create -f redis-master-service.yaml
+
+kubectl create -f redis-client-controller.yaml
+kubectl create -f redis-client-service.yaml
+
+kubectl create -f frontend-controller.yaml
+kubectl create -f frontend-service.yaml
