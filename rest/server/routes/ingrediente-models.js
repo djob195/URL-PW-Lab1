@@ -9,7 +9,20 @@ let ingredienteSchema = new Schema({
         required: [true, 'El nombre del ingrediente es requerido']
     },
     descripcion: {
-        type: String
+        type: String,
+        default: 'sin descripcion'
+    },
+    calorias: {
+        type: Number,
+         required: [true, 'El numero de calorias es requerido']
+    },
+    diaDeVida: {
+        type: Number,
+        required: [true, 'El tiempo de vida es requerido']
+    },
+    Origen: {
+        type: String,
+        default: 'sin origen'
     },
     fechaIngreso: {
         type: Date

@@ -12,7 +12,10 @@ app.post('/ingrediente', (req, res) => {
     let ingrediente = new Ingrediente({
         nombre: body.nombre,
         descripcion: body.descripcion,
-        fechaIngreso: Date.now()
+        fechaIngreso: Date.now(),
+        calorias:body.calorias,
+        diaDeVida: body.diaDeVida,
+        Origen: body.Origen
     });
     ingrediente.save()
     .then(ingredienteDB =>{
@@ -83,7 +86,7 @@ app.get('/ingrediente', (req, res) => {
 
     let condicion = {estado:true};
 
-    let p1 = Ingrediente.find(condicion, 'nombre descripcion fechaIngreso fechaActualizacion estado');
+    let p1 = Ingrediente.find(condicion, 'nombre descripcion fechaIngreso fechaActualizacion estado Origen diaDeVida calorias');
 
     let p2 = Ingrediente.count(condicion);
 
@@ -115,6 +118,7 @@ app.get('/ingrediente/:id',(req, res) => {
     let id = req.params.id;
     Ingrediente.findById(id)
     .then(ingredienteDB =>{
+        console.log(ingredienteDB);
         res.json({
             ok: true,
             ingrediente: ingredienteDB

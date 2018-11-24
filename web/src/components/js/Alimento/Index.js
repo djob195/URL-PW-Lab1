@@ -76,7 +76,8 @@ HandlerDeleteRegister(id)
   .then(json => {
     if(json.ok){
       let _data = this.state.data;
-      _data = _data.filter(item =>{return item._id !== json.alimento._id});
+      console.log(json);
+      _data = _data.filter(item =>{return item._id !== json.ingrediente._id});
       this.setState({isLoaded:true, modal:!this.state.modal, data:_data });
     }
     else

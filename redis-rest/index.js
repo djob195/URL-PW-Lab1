@@ -63,8 +63,11 @@ app.get('/ingrediente/:id',(req, res) => {
                 descripcion: obj.descripcion,
                 fechaIngreso: obj.fechaIngreso,
                 fechaActualizacion: obj.fechaActualizacion,
-                estado: obj.estado
+                calorias: obj.calorias,
+                diaDeVida: obj.diaDeVida,
+                Origen: obj.Origen
             }
+            console.log(ingrediente);
             res.json({
                 ok: true,
                 ingrediente
@@ -106,6 +109,7 @@ app.get('/ingrediente',(req, res) => {
                 console.log(index);
                 if(err){
                     console.log(err);
+                    return res.json(err); 
                 }
                 else{
                     let ingrediente = {
@@ -114,7 +118,10 @@ app.get('/ingrediente',(req, res) => {
                         descripcion: obj.descripcion,
                         fechaIngreso: obj.fechaIngreso,
                         fechaActualizacion: obj.fechaActualizacion,
-                        estado: obj.estado
+                        estado: obj.estado,
+                        calorias: obj.calorias,
+                        diaDeVida: obj.diaDeVida,
+                        Origen: obj.Origen
                     }
                     data.push(ingrediente);
                     if(index === objects.length-1)
@@ -156,13 +163,15 @@ app.delete('/ingrediente/:id',(req, res) => {
             console.log(json);
             if (json.ok === true){
                 client.hdel(id,["nombre","descripcion",
-                "fechaIngreso","fechaActualizacion","estado"],(err,obj) =>{
+                "fechaIngreso","fechaActualizacion","estado","calorias","diaDeVida", "Origen"],(err,obj) =>{
                     if(err){
                         console.log(err);
+                        return res.json(err); 
                     }
                     client.srem("hingredientes",[id],(err, del) =>{
                         if(err){
                             console.log(err);
+                            return res.json(err); 
                         }
                         res.json(json);
                     })
@@ -173,6 +182,7 @@ app.delete('/ingrediente/:id',(req, res) => {
         });
     } catch (error) {
         console.log(error);   
+        return res.json(error); 
     }
 });
 
@@ -187,25 +197,32 @@ app.post('/ingrediente', (req, res) => {
                     "descripcion", json.ingrediente.descripcion  || "sin descripcion",
                     "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "mm/dd/yyyy") || "Sin fecha de ingreso",
                     "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "mm/dd/yyyy") || "Sin fecha de actualizacion",
-                    "estado",json.estado
+                    "estado",json.ingrediente.estado,
+                    "calorias",json.ingrediente.calorias,
+                    "diaDeVida",json.ingrediente.diaDeVida,
+                    "Origen",json.ingrediente.Origen
                     ],
                 (err, reply) =>{
                     if(err){
                         console.log(err);
+                        return res.json(err);  
                     }
                     client.sadd("hingredientes",[json.ingrediente._id],(err,reply)=>{
                         if(err){
                             console.log(err);
+                            return res.json(err);  
                         }     
                         res.json(json);                     
                     });
                 });
             } else {
                 console.log(json.err);
+                res.json(json);  
             }
         })
     } catch (error) {
         console.log(error);   
+        res.json(error);  
     }
 });
 
@@ -223,19 +240,25 @@ app.put('/ingrediente/:id', (req, res) => {
                     "descripcion", json.ingrediente.descripcion  || "sin descripcion",
                     "fechaIngreso", dateFormat(json.ingrediente.fechaIngreso, "mm/dd/yyyy") || "Sin fecha de ingreso",
                     "fechaActualizacion", dateFormat(json.ingrediente.fechaActualizacion, "mm/dd/yyyy") || "Sin fecha de actualizacion",
-                    "estado",json.ingrediente.toString()
+                    "estado",json.ingrediente.toString(),
+                    "calorias",json.ingrediente.calorias,
+                    "diaDeVida",json.ingrediente.diaDeVida,
+                    "Origen",json.ingrediente.Origen
                     ],
                 (err, reply) =>{
                     if(err){
                         console.log(err);
+                        return  res.json(err);
                     }
                     res.json(json);
                 });
             }else{
                 console.log(json.err);
+                res.json(json);
             }
         });
     } catch (error) {
+        res.json(error);
         console.log(error);   
     }
 });

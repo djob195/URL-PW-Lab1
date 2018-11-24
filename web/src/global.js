@@ -4,5 +4,5 @@ global.dataByRow = 4;
 global.colLength =  parseInt(12/global.dataByRow,10);
 
 // Configuración de API
-global.restApi = "http://104.155.163.128/";
+global.restApi = "http://localhost:8081/";
 global.fakeFetch = "http://localhost/helloWorld.html";

@@ -20,11 +20,12 @@ handleSubmit(event) {
     this.setState({isLoaded:false});
     event.preventDefault();
     var data =  JSON.stringify({
-        _id: uuidv1(),
         nombre: document.getElementById('nombre').value,
         descripcion: document.getElementById('descripcion').value,
-        image: "http://localhost:3000/img/frutas2.jpg",
-        fechaIngreso: Date.now()
+        fechaIngreso: Date.now(),
+        calorias: document.getElementById('calorias').value,
+        diaDeVida: document.getElementById('diaDeVida').value,
+        Origen: document.getElementById('origen').value
     });
     //let toFetch = global.fakeFetch; 
     fetch(global.restApi+ "ingrediente", {
@@ -76,35 +77,41 @@ handleSubmit(event) {
         <h1>Crear un nuevo alimento</h1>
             <Form id="formularioAlimento">
             <FormGroup row>
-            <Label for="nombre" sm={2} size="lg">Nombre</Label>
-            <Col sm={10}>
-                <Input type="text" name="nombre" id="nombre" placeholder="nombre" bsSize="lg" />
+            <Label for="nombre" sm={2} size="lg">* Nombre</Label>
+            <Col sm={8}>
+                <Input type="text" name="nombre" id="nombre" placeholder="nombre" bsSize="lg" required />
             </Col>
             </FormGroup>
             <FormGroup row>
             <Label for="descripcion" sm={2}>Descripción</Label>
-            <Col sm={10}>
-                <Input type="textarea" name="descripcion" id="descripcion" placeholder="descripción" />
+            <Col sm={8}>
+                <Input type="textarea" name="descripcion" id="descripcion" placeholder="descripción"  />
             </Col>
             </FormGroup>
             <FormGroup row>
-            <Label for="fechaIngreso" sm={2}>Fecha de Ingreso</Label>
-            <Col sm={10}>
-                <Input type="date" name="fechaIngreso" id="fechaIngreso"/>
-            </Col>
-            </FormGroup>
-             <FormGroup row>
-            <Label for="image" sm={2}>Seleccione la imagen</Label>
-            <Col sm={10}>
-                <Input type="file" name="image" id="image" />
+            <Label for="calorias" sm={2}>* Calorias</Label>
+            <Col sm={8}>
+                <Input type="number" name="calorias" id="calorias" min="0" required  />
             </Col>
             </FormGroup>
             <FormGroup row>
-            <Col sm={6}>
-                <Button  onClick={this.handleSubmit}>Crear</Button>
+            <Label for="diaDeVida" sm={2}>* Dias de vida del alimento</Label>
+            <Col sm={8}>
+                <Input type="number" name="diaDeVida" id="diaDeVida" min="0" required  />
             </Col>
-            <Col sm={6}>
+            </FormGroup>
+            <FormGroup row>
+            <Label for="origen" sm={2}>Origen de alimento (De donde proviene)</Label>
+            <Col sm={8}>
+                <Input type="textarea" name="origen" id="origen" placeholder="Origen"  />
+            </Col>
+            </FormGroup>
+            <FormGroup row>
+            <Col sm={{ size: 'auto', offset: 1 }}>
                 <Button  onClick={this.handleBackIndex}>Regresar</Button>
+            </Col>
+            <Col sm={{ size: 'auto', offset: 1 }}>
+                <Button  onClick={this.handleSubmit}>Editar</Button>
             </Col>
             </FormGroup>
         </Form>

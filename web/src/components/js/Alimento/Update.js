@@ -26,11 +26,12 @@ getIngrediente(id)
   let toFetch = global.restApi+ "ingrediente/" + id; 
   fetch(toFetch)
   .then(response => {
-    return getAlimento(id);
+    return response.json();
   })
   .then(json => {
     if(json.ok){
-      this.setState({isLoaded:true, alimento: json.alimento});
+        console.log(json);
+      this.setState({isLoaded:true, alimento: json.ingrediente});
     }
     else
     {
@@ -50,10 +51,13 @@ handleSubmit(event) {
         _id: params.id,
         nombre: document.getElementById('nombre').value,
         descripcion: document.getElementById('descripcion').value,
-        fechaIngreso: Date.now()
+        calorias: document.getElementById('calorias').value,
+        diaDeVida: document.getElementById('diaDeVida').value,
+        Origen: document.getElementById('origen').value
     });
+    console.log(data);
     //let toFetch = global.fakeFetch; 
-    fetch(global.restApi+ "ingrediente", {
+    fetch(global.restApi+ "ingrediente/" + params.id , {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -101,34 +105,40 @@ handleSubmit(event) {
             <Form id="formularioAlimento">
             <FormGroup row>
             <Label for="nombre" sm={2} size="lg">Nombre</Label>
-            <Col sm={10}>
+            <Col sm={8}>
                 <Input type="text" name="nombre" id="nombre" placeholder="nombre" defaultValue={alimento.nombre} bsSize="lg" />
             </Col>
             </FormGroup>
             <FormGroup row>
             <Label for="descripcion" sm={2}>Descripción</Label>
-            <Col sm={10}>
+            <Col sm={8}>
                 <Input type="textarea" name="descripcion" id="descripcion" defaultValue={alimento.descripcion} placeholder="descripción" />
             </Col>
             </FormGroup>
             <FormGroup row>
-            <Label for="fechaIngreso" sm={2}>Fecha de Ingreso</Label>
-            <Col sm={10}>
-                <Input type="date" name="fechaIngreso" id="fechaIngreso" defaultValue={alimento.fechaIngreso} />
+            <Label for="calorias" sm={2}>* Calorias</Label>
+            <Col sm={8}>
+                <Input type="number" name="calorias" id="calorias" min="0" defaultValue={alimento.calorias} required  />
             </Col>
             </FormGroup>
             <FormGroup row>
-            <Label for="image" sm={2}>Imagen</Label>
-            <Col sm={10}>
-                <img src={alimento.image} alt=""/>
+            <Label for="diaDeVida" sm={2}>* Dias de vida del alimento</Label>
+            <Col sm={8}>
+                <Input type="number" name="diaDeVida" id="diaDeVida" min="0" defaultValue={alimento.diaDeVida} required  />
             </Col>
             </FormGroup>
             <FormGroup row>
-            <Col sm={6}>
-                <Button  onClick={this.handleSubmit}>Editar</Button>
+            <Label for="origen" sm={2}>Origen de alimento (De donde proviene)</Label>
+            <Col sm={8}>
+                <Input type="textarea" name="origen" id="origen" defaultValue={alimento.Origen}  />
             </Col>
-            <Col sm={6}>
+            </FormGroup>
+            <FormGroup row>
+            <Col sm={{ size: 'auto', offset: 1 }}>
                 <Button  onClick={this.handleBackIndex}>Regresar</Button>
+            </Col>
+            <Col sm={{ size: 'auto', offset: 1 }}>
+                <Button  onClick={this.handleSubmit}>Editar</Button>
             </Col>
             </FormGroup>
         </Form>
