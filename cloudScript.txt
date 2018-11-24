@@ -1,3 +1,18 @@
+## DOCKER
+docker build -t rest .
+docker tag rest djob195/rest-web2
+docker push djob195/rest-web2
+
+docker build -t client-redis .
+docker tag client-redis djob195/client-redis
+docker push djob195/client-redis
+
+docker build -t web .
+docker tag web djob195/web
+docker push djob195/web
+
+## GCLOUD
+
 gcloud container clusters create guestbook --num-nodes=6 --machine-type g1-small
 
 kubectl create -f rest-controller.yaml
