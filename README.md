@@ -7,7 +7,7 @@ En el presente proyecto consta de una pequeña aplicación de manejo de alimento
 3.  **Web**      : Proyecto Frontend de react js, que consiste en llamar los servicios correspondientes del cliente redis.
 
 A continuación, se presentará la arquitectura de la aplicación:
-
+```
 *- - - - - *        *- - - - - *             *- - - - - *         *- - - - - *
 |          |        |          |             |  REDIS   |         |          |
 | Mongo DB | <----> |   REST   | <--5 min--> |   REST   |  <----> |   WEB    |  
@@ -23,6 +23,7 @@ A continuación, se presentará la arquitectura de la aplicación:
                                             |   SERVER  |
                                             |           |
                                             *- - - - - -*
+```
 
 ## Antes de comenzar
 
